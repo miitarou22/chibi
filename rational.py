@@ -12,8 +12,8 @@ class Q(object):
         a= self.a
         b= self.b
         c =q.a
-        d=q.b
-        return Q(a,b)
+        d = q.b
+        return Q(a*b+b*c,b*d)
 
 q1 = Q(1,2)
 q2 = Q(1,3)
