@@ -27,7 +27,12 @@ def toExpr(a):
         a = Val(a)
     return a
 
-class Add(Expr):
+class Binary(Expr):
+    def __repr__(self):
+        classname = self.__class.__name__
+        return f'{classname}({self.left},{self.right})'
+
+class Add(Binary):
     __slots__=['left','right']
     def __init__(self,a,b):
        # if not isinstance(a,Expr):
