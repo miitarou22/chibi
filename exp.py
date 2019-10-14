@@ -13,8 +13,3 @@ class Val(object):
 v =Val(1)
 print(v)
 assert v.eval() ==1
-
-class Add(object):
-    
-        
-        
