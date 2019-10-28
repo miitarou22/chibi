@@ -20,12 +20,12 @@ print(s,s1,s2) # +記号を探す
 def parse(s: str):
     pos = s.find('+')
     if pos == -1:
-        num = int(s)
-        return Val(num)
+        #num = int(s)
+        return Val(int(s))
     else:
         s1 = s[0:pos]
         s2 = s[pos+1:]
-        return Add(Val(int(s1)),Val(int(s2)))
+        return Add(parse(s1),parse(s2))
 
-e = parse("123+456")
-print(e)
+e = parse("1+2+3")
+print(e,e.eval())
