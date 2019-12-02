@@ -3,7 +3,8 @@ import pegpy
 peg = pegpy.grammar('chibi.tpeg')
 parser = pegpy.generate(peg)
 
-'''tree = parser('1+2*3')
+'''
+tree = parser('1+2*3')
 print(repr(tree))
 tree = parser('1@2*3')
 print(repr(tree))
@@ -59,6 +60,43 @@ class Mod(Binary):
     __slot__ = ['left', 'right']
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
+
+class Var(Expr):
+    __slot__=['name']
+    def __init__(self,name):
+        self.name = name
+    def eval(self,env:dict):
+        if self.name in env:
+            return env[self.name]
+        raise NameError(self.name)
+
+class Assign(Expr):
+    __slots__=['name','e']
+    def __init__(self,name,e):
+        self.name = name
+        self.e = Expr.new(e)
+
+    def eval(self,env):
+        env[self.name] = self.e.eval(env)
+        return env[self.name]
+
+
+
+print('少しテスト')
+
+env = ()
+e = Assign('x',Val(1))
+print(e.eval(env))
+e = Assign('x',Add(Var('x'),Val(2)))
+print(e.eval(env))
+
+try:
+    e = Var('x')
+    e.eval({'x':123})
+except NameError:
+    print('未定義の変数です')
+print('テスト終わり')
+
 
 def conv(tree):
     if tree == 'Block':
